@@ -1,0 +1,21 @@
+{
+  "name": "chrome-pagecheck",
+  "version": "0.0.1",
+  "description": "Simple way to check webpage for errors in google Chrome",
+  "main": "chrome.js",
+  "bin": {
+    "chrome-pagecheck": "./bin/chrome-pagecheck"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^0.4.31",
+    "request": "^2.34.0",
+    "debug": "^0.7.4",
+    "async": "^0.2.10",
+    "colors": "^0.6.2"
+  }
+}

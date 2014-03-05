@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+var pageCheck = require('../lib/pagecheck');
+var debug = require('debug')('chrome-pagecheck');
+
+var options = {
+  chromeUrl: 'http://localhost:9222/json'
+};
+
+//check for Tmux
+// brew install reattach-to-user-namespace
+var chromeArgs = [
+  '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome',
+  '--remote-debugging-port=9222',
+  '--user-data-dir=/tmp/bla4',
+  '--disable-metrics'
+];
+
+if (process.env.TMUX) {
+  debug('running inside tmux')
+  chromeArgs.unshift('reattach-to-user-namespace');
+}
+
+var spawn = require('child_process').spawn;
+
+var chromeProc = spawn(chromeArgs[0], chromeArgs.slice(1));
+debug(chromeArgs);
+
+options.url = process.argv[2];
+debug(options);
+
+pageCheck.run(options, function(err, errors) {
+  console.log('stopping chrome');
+  chromeProc.kill('SIGHUP');
+  console.log('done');
+  if (errors.length >0) {
+    console.log('We got errors');
+    process.exit(-1);
+  }else {
+    console.log('No errors detected')
+    process.exit();
+  }
+});
