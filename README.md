@@ -13,7 +13,7 @@ Reason:
 - detecting javascript errors in Selenium, require injection of javascript (console.log or window.errors)
 
 # Usage
-``
+```
 $ chrome-pagecheck http://google.co.uk
 
 visiting http://google.co.uk
