@@ -1,6 +1,6 @@
 {
   "name": "chrome-pagecheck",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple way to check webpage for errors in google Chrome",
   "main": "chrome.js",
   "bin": {
