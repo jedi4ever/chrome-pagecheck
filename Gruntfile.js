@@ -86,7 +86,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-release');
-  grunt.loadNpmTasks('grunt-docco2');
 
   grunt.registerTask('test', ['jshint','mochaTest']);
 
