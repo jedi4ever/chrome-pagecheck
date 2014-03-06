@@ -17,5 +17,15 @@
     "debug": "^0.7.4",
     "async": "^0.2.10",
     "colors": "^0.6.2"
+  },
+  "devDependencies": {
+    "mocha": "^1.17.1",
+    "grunt": "^0.4.2",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-mocha-test": "^0.9.4",
+    "assert": "^1.1.1",
+    "grunt-release": "^0.7.0",
+    "blanket": "^1.1.6",
+    "grunt-contrib-jshint": "^0.8.0"
   }
 }

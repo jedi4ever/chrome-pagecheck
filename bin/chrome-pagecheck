@@ -1,75 +1,30 @@
 #!/usr/bin/env node
-var pageCheck = require('../lib/pagecheck');
 var debug = require('debug')('chrome-pagecheck');
-var os = require('os');
+var pageCheck = require('../lib/pagecheck');
 
 var options = {
-  chromeUrl: 'http://localhost:9222/json'
-};
-
-var fs = require('fs');
-
-var detectChrome = function() {
-  var locations = [
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-    '/opt/google/chrome/chrome'
-  ];
-
-  var chromeLocation = undefined;
-  locations.every(function(location) {
-    if (fs.existsSync(location)) {
-      chromeLocation =location ;
-    }
-  });
-  return chromeLocation;
+  port: 9222,
+  host: 'localhost',
+  url: process.argv[2]
 
 };
+debug(options);
 
-//check for Tmux
-// brew install reattach-to-user-namespace
-var chromeArgs = [
-  '--remote-debugging-port=9222',
-  '--user-data-dir=/tmp/bla4',
-  '--disable-metrics'
-];
-
-var chromeLocation = detectChrome();
-
-if (chromeLocation) {
-  chromeArgs.unshift(chromeLocation);
-} else {
-  console.log('Could not find a Chrome executable');
-  process.exit(-1);
-}
-
-if (process.env.TMUX) {
-  debug('running inside tmux')
-  chromeArgs.unshift('reattach-to-user-namespace');
-}
-
-var spawn = require('child_process').spawn;
-
-var chromeProc = spawn(chromeArgs[0], chromeArgs.slice(1));
+// Launching chrome
+var launchChrome = require('../lib/launchChrome');
+var chromeProc = launchChrome(options);
 
 chromeProc.on('error', function(err) {
-  console.log(err);
-  process.exit(-1);
+ callback(err);
 });
-chromeProc.on('stdout', function(err) {
-  console.log(err);
-});
-chromeProc.on('stderr', function(err) {
-  console.log(err);
-});
+
 chromeProc.on('exit', function(err) {
   if (err !== 0) {
-    console.log('Chrome stopped unexpectedly');
+    debug('Chrome stopped unexpectedly');
     process.exit(err);
   }
 });
 
-options.url = process.argv[2];
-debug(options);
 
 pageCheck.run(options, function(err, errors) {
   console.log('stopping chrome');
